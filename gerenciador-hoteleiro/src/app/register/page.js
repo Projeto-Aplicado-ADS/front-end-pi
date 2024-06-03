@@ -7,13 +7,19 @@ import { useForm } from 'react-hook-form';
 
 function Page() {
 
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({
+      defaultValues: {
+        "birthday": "2023-06-02T15:04:05Z"
+      }
+    });
 
 
     const onSubmit = async (data) => {
         try {
           axios.post('http://localhost:8090/users', data).then((response) => {
-            console.log(response.data)
+            if(response.status == 201){
+              reset()
+            }
           })
         } catch (e) {
           console.log(e)
@@ -28,7 +34,7 @@ function Page() {
     </div>
     <form className='w-full h-screen' onSubmit={handleSubmit(onSubmit)}>
     <div className='flex flex-col w-full h-screen items-center'>
-      <div className='flex flex-col justify-center h-3/4 gap-y-6'>
+      <div className='flex flex-col h-screen items-center justify-center gap-y-6'>
         <h1 className='text-[25px] text-center'>Registre-se</h1>
         <div className='flex flex-col w-full'>
           <label>Nome Completo</label>
@@ -69,18 +75,12 @@ function Page() {
         type="text" 
         className='flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium' />
         </div>
-        {/* <div className='flex flex-col w-full'>
+        <div className='flex flex-col w-full'>
           <label>Aniversário</label>
           <input  
-          {...register("birthday", {
-            required: {
-                value: true,
-                message: "Por Favor insira um email!"
-            },
-        })}
-        type="date" 
-        className='flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium' />
-        </div> */}
+            type="datetime-local" 
+            className='flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium' />
+        </div>
         <div className='flex flex-col'>
           <label>Senha</label>
           <input 
