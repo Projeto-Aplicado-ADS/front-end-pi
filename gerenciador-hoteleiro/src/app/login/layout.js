@@ -1,11 +1,11 @@
 export const metadata = {
-    title: "Login",
-  };
-  
+  title: 'Login',
+}
+
 export default function RootLayout({ children }) {
-    return (
-      <html lang="pt-br">
-        <body>{children}</body>
-      </html>
-    );
+  return (
+    <html lang="pt-br">
+      <body>{children}</body>
+    </html>
+  )
 }
