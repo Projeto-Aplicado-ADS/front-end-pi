@@ -1,11 +1,11 @@
 'use client'
-import axios from 'axios'
 import { Lato } from 'next/font/google'
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
-import { AlertTriangleIcon } from 'lucide-react'
+import { AlertTriangleIcon, EyeIcon, EyeOff } from 'lucide-react'
 import { PhoneInput } from 'react-international-phone'
+import axios from 'axios'
 
 const lato = Lato({
   weight: '400',
@@ -13,15 +13,18 @@ const lato = Lato({
 })
 
 function Page() {
+  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword1, setShowPassword1] = useState(false)
   const {
     register,
     handleSubmit,
     reset,
+    watch,
     control,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      birthday: '2023-06-02T15:04:05Z',
+      password: '',
     },
   })
 
@@ -37,10 +40,18 @@ function Page() {
     }
   }
 
+  const password = (event) => {
+    if (event.target.value.length < 6) {
+      event.target.setCustomValidity('Senha deve ter pelo menos 6 caracteres')
+    } else {
+      event.target.setCustomValidity('')
+    }
+  }
+
   return (
     <>
       <div className="flex flex-row w-full h-screen justify-center items-center">
-        <div className="flex flex-col items-center justify-center h-screen w-full bg-[#FF9C06] rounded-r-lg">
+        <div className="flex flex-col items-center justify-center h-screen  rounded-r-lg lg:bg-[#FF9C06] lg:h-screen lg:w-full lg:flex lg:flex-col lg:items-center lg:justify-center md:hidden max-md:hidden">
           <Image
             src="./hotel-svg.svg"
             className="w-full"
@@ -54,7 +65,7 @@ function Page() {
             className="w-full flex justify-center"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <div className="flex flex-col  items-center justify-center gap-y-3">
+            <div className="flex flex-col  items-center justify-center  lg:gap-y-5 md:gap-6 max-md:gap-6">
               <h1 className={`${lato.className} text-[25px] text-center`}>
                 Registre-se
               </h1>
@@ -103,16 +114,6 @@ function Page() {
                 <Controller
                   name="phone"
                   control={control}
-                  rules={{
-                    required: {
-                      value: true,
-                      message: 'Insira um numéro de telefone',
-                    },
-                    pattern: {
-                      value: /^\+55\d{12}$/,
-                      message: 'Por favor insira um numéro de telefone!',
-                    },
-                  }}
                   render={({ field: { onChange, value } }) => (
                     <PhoneInput
                       value={value}
@@ -131,19 +132,6 @@ function Page() {
                 )}
               </div>
               <div className="flex flex-col w-full">
-                <label>Aniversário</label>
-                <input
-                  type="date"
-                  className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium"
-                />
-                {errors.birthday && (
-                  <span className="text-red-600 text-xs flex items-center w-full pt-1">
-                    <AlertTriangleIcon className="w-4 mr-1" />
-                    {errors.birthday.message}
-                  </span>
-                )}
-              </div>
-              <div className="flex flex-col w-full">
                 <label>Senha</label>
                 <input
                   {...register('password', {
@@ -151,8 +139,9 @@ function Page() {
                       value: true,
                       message: 'Por Favor insira uma senha!',
                     },
+                    onChange: (event) => password(event),
                   })}
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium"
                 />
                 {errors.password && (
@@ -161,13 +150,42 @@ function Page() {
                     {errors.password.message}
                   </span>
                 )}
+                <div
+                  className="absolute flex mt-[32px] ml-[210px] opacity-50"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <EyeIcon /> : <EyeOff />}
+                </div>
               </div>
               <div className="flex flex-col w-full">
                 <label>Confirmar Senha</label>
                 <input
-                  type="password"
+                  {...register('confirm_password', {
+                    required: {
+                      value: true,
+                      message: 'Por favor insira sua confirmação de senha',
+                    },
+                    validate: (value) => {
+                      if (watch('password') !== value) {
+                        return 'As senhas não são iguais!'
+                      }
+                    },
+                  })}
+                  type={showPassword1 ? 'text' : 'password'}
                   className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium"
                 />
+                {errors.confirm_password && (
+                  <span className="text-red-600 text-xs flex items-center w-full">
+                    <AlertTriangleIcon className="w-4 mr-1" />
+                    {errors.confirm_password.message}
+                  </span>
+                )}
+                <div
+                  className="absolute flex mt-[32px] ml-[210px] opacity-50"
+                  onClick={() => setShowPassword1(!showPassword1)}
+                >
+                  {showPassword1 ? <EyeIcon /> : <EyeOff />}
+                </div>
               </div>
               <div className="flex flex-row gap-x-2 w-full">
                 <button
