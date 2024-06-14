@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react'
 import { Lato } from 'next/font/google'
 import Image from 'next/image'
@@ -44,7 +45,9 @@ function SingupComponent() {
               description:
                 'Parabens! Sua conta foi criada com sucesso. Você sera redirecionado para o login.',
             })
-            router.push('/login')
+            setTimeout(() => {
+              router.push('/login')
+            }, 3000)
           }
         })
         .catch((error) => {
@@ -219,7 +222,11 @@ function SingupComponent() {
                 >
                   Enviar
                 </button>
-                <button className="p-2 bg-[#FB7901] text-white w-[120px] rounded-md hover:bg-[#FF9839] hover:delay-75 transition">
+                <button
+                  type="button"
+                  onClick={() => router.push('/')}
+                  className="p-2 bg-[#FB7901] text-white w-[120px] rounded-md hover:bg-[#FF9839] hover:delay-75 transition"
+                >
                   Cancelar
                 </button>
               </div>
