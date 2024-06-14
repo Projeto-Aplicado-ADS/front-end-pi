@@ -130,21 +130,21 @@ function LoginScreen() {
                   {showPassword ? <EyeIcon /> : <EyeOff />}
                 </div>
               </div>
-            </div>
-            <div className="flex flex-row gap-x-2 w-full">
-              <button
-                type="submit"
-                className="p-2 bg-[#FB7901] text-white w-[120px] rounded-md hover:bg-[#FF9839] hover:delay-75 transition"
-              >
-                Enviar
-              </button>
-              <button
-                type="button"
-                onClick={() => router.push('/')}
-                className="p-2 bg-[#FB7901] text-white w-[120px] rounded-md hover:bg-[#FF9839] hover:delay-75 transition"
-              >
-                Cancelar
-              </button>
+              <div className="flex flex-row gap-x-2 pt-5">
+                <button
+                  type="submit"
+                  className="p-2 bg-[#FB7901] text-white w-[120px] rounded-md hover:bg-[#FF9839] hover:delay-75 transition"
+                >
+                  Enviar
+                </button>
+                <button
+                  type="button"
+                  onClick={() => router.push('/')}
+                  className="p-2 bg-[#FB7901] text-white w-[120px] rounded-md hover:bg-[#FF9839] hover:delay-75 transition"
+                >
+                  Cancelar
+                </button>
+              </div>
             </div>
           </form>
         </div>
