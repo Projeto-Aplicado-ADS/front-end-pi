@@ -1,9 +1,18 @@
+"use client"
 import React from 'react'
 import Menu from './Menu'
+import Feed from './Feed'
 
 function HomeWrap() {
   return (
-    <Menu />
+    <>
+      <div className='fixed'>
+        <Menu/>
+      </div>
+      <div className='h-screen ml-24'>
+        <Feed/>
+      </div>
+    </>
   )
 }
 
