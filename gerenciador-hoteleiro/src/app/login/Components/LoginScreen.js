@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Dosis, Poppins } from 'next/font/google'
 import { useForm } from 'react-hook-form'
 import { AlertTriangleIcon, BirdIcon } from 'lucide-react'
@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import { handleLoginByEmailAndPassword } from '../api/handleLoginByEmailAndPassword'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
+import { ToastAction } from "@/components/ui/toast"
 
 const poppins = Poppins({
   weight: '400',
@@ -19,7 +20,6 @@ const dosis = Dosis({
 })
 
 function LoginScreen() {
-  const [error, setError] = useState('')
   const { toast } = useToast()
   const router = useRouter()
   const {
@@ -51,15 +51,20 @@ function LoginScreen() {
           }
         })
         .catch((error) => {
-          console.log(error)
-          setError(error.response.data)
+          toast({
+            variant: 'destructive',
+            title: 'Ops algo deu errado!',
+            description:
+              `${error.response.data}`,
+            action: (
+              <ToastAction altText="Tente Novamente" onClick={() => reset()}>Tentar Novamente</ToastAction>
+            ),
+          })
         })
     } catch (e) {
       console.log(e)
     }
   }
-
-  console.log(error)
 
   const password = (event) => {
     if (event.target.value.length < 6) {
@@ -101,18 +106,12 @@ function LoginScreen() {
                   type="email"
                   className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium"
                 />
-                {(errors.password && (
+                {(errors.email && (
                   <span className="text-red-600 text-xs flex items-center w-full pt-1">
                     <AlertTriangleIcon className="w-4 mr-1" />
-                    {errors.password.message}
+                    {errors.email.message}
                   </span>
-                )) ||
-                  (error && (
-                    <span className="text-red-600 text-xs flex items-center w-full pt-1">
-                      <AlertTriangleIcon className="w-4 mr-1" />
-                      {error}
-                    </span>
-                  ))}
+                ))}
               </div>
               <div className="flex flex-col w-full space-y-1">
                 <label>Senha</label>
@@ -133,13 +132,7 @@ function LoginScreen() {
                     <AlertTriangleIcon className="w-4 mr-1" />
                     {errors.password.message}
                   </span>
-                )) ||
-                  (error && (
-                    <span className="text-red-600 text-xs flex items-center w-full pt-1">
-                      <AlertTriangleIcon className="w-4 mr-1" />
-                      {error}
-                    </span>
-                  ))}
+                ))}
               </div>
               <div className="flex flex-row items-center w-full">
                 <p className={`${poppins.className} text-sm`}>Lembrar de mim</p>
