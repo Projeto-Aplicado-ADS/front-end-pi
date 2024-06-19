@@ -1,8 +1,11 @@
-export const getUserByEmail = async (email) => {
-  try {
-    const response = await axiosInstance.get(`/users/${email}`);
-    return response.data;
-  } catch (e) {
-    console.log(e);
-  }
-}
+import { axiosInstance } from "@/lib/api";
+
+export const getMe = async (token) => {
+  const response = await axiosInstance.get("/users/me", {
+    headers: {
+      Authorization: token,
+    },
+  });
+
+  return response.data;
+};

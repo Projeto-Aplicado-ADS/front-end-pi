@@ -19,7 +19,6 @@ const dosis = Dosis({
 });
 
 function LoginScreen() {
-  const [error, setError] = useState("");
   const { toast } = useToast();
   const router = useRouter();
   const {
@@ -51,15 +50,13 @@ function LoginScreen() {
           }
         })
         .catch((error) => {
-          setError(error.response.data);
+          // setError(error.response.data);
           return error;
         });
     } catch (e) {
       console.log(e);
     }
   };
-
-  console.log(error);
 
   const password = (event) => {
     if (event.target.value.length < 6) {
@@ -106,13 +103,7 @@ function LoginScreen() {
                     <AlertTriangleIcon className="w-4 mr-1" />
                     {errors.password.message}
                   </span>
-                )) ||
-                  (error && (
-                    <span className="text-red-600 text-xs flex items-center w-full pt-1">
-                      <AlertTriangleIcon className="w-4 mr-1" />
-                      {error}
-                    </span>
-                  ))}
+                ))}
               </div>
               <div className="flex flex-col w-full space-y-1">
                 <label>Senha</label>
@@ -133,13 +124,7 @@ function LoginScreen() {
                     <AlertTriangleIcon className="w-4 mr-1" />
                     {errors.password.message}
                   </span>
-                )) ||
-                  (error && (
-                    <span className="text-red-600 text-xs flex items-center w-full pt-1">
-                      <AlertTriangleIcon className="w-4 mr-1" />
-                      {error}
-                    </span>
-                  ))}
+                ))}
               </div>
               <div className="flex flex-row items-center w-full">
                 <p className={`${poppins.className} text-sm`}>Lembrar de mim</p>

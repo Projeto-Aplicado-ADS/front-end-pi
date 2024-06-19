@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import { TimerResetIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -6,6 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { Montserrat } from "next/font/google";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { getMe } from "@/modules/home/lib/getUserByEmail";
 
 const dosis = Montserrat({
   weight: "400",
@@ -16,6 +17,8 @@ function Feed() {
   const today = new Date();
   const router = useRouter();
   const token = Cookies.get("token");
+  const data = getMe(token);
+  const [getUsername, setUsername] = useState("");
 
   const getFormattedDate = (date) => {
     return date.toLocaleDateString("pt-BR", { day: "numeric" });
@@ -31,7 +34,14 @@ function Feed() {
   useEffect(() => {
     getFormattedDate(today);
     getFormattedDay(today);
-    console.log(token);
+
+    data
+      .then((respose) => {
+        setUsername(respose.full_name);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     if (!token) {
       router.push("/login");
@@ -43,7 +53,7 @@ function Feed() {
       <div className={`${dosis.className} flex flex-row h-screen w-full`}>
         <div className="w-full h-screen flex flex-col gap-5">
           <h1 className="text-xl ml-12 pt-20 font-semibold">
-            Bem vindo, @username!
+            Bem vindo, {getUsername || "Anônimo"}!
           </h1>
           <div className="flex flex-row items-center ml-12">
             <TimerResetIcon />

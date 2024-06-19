@@ -17,7 +17,7 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
-    switch (error.response.status) {
+    switch (error.response?.status) {
       case 401:
         window.location.assign("/login");
         break;
