@@ -1,5 +1,5 @@
-import axios from 'axios'
+import { axiosInstance } from "@/lib/api";
 
 export const handleLoginByEmailAndPassword = (data) => {
-  return axios.post(`${process.env.NEXT_PUBLIC_API_ROUTER}/users/login`, data)
-}
+  return axiosInstance.post('/users/login', data);
+};

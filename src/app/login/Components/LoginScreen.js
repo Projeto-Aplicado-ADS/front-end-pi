@@ -1,27 +1,26 @@
-import React, { useState } from 'react'
-import { Dosis, Poppins } from 'next/font/google'
-import { useForm } from 'react-hook-form'
-import { AlertTriangleIcon, BirdIcon } from 'lucide-react'
-import { useToast } from '@/components/ui/use-toast'
-import { useRouter } from 'next/navigation'
-import { handleLoginByEmailAndPassword } from '../api/handleLoginByEmailAndPassword'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { Checkbox } from '@/components/ui/checkbox'
+import React, { useState } from "react";
+import { Dosis, Poppins } from "next/font/google";
+import { useForm } from "react-hook-form";
+import { AlertTriangleIcon, BirdIcon } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+import { handleLoginByEmailAndPassword } from "../api/handleLoginByEmailAndPassword";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const poppins = Poppins({
-  weight: '400',
-  subsets: ['latin'],
-})
+  weight: "400",
+  subsets: ["latin"],
+});
 
 const dosis = Dosis({
-  weight: '600',
-  subsets: ['latin'],
-})
+  weight: "600",
+  subsets: ["latin"],
+});
 
 function LoginScreen() {
-  const [error, setError] = useState('')
-  const { toast } = useToast()
-  const router = useRouter()
+  const { toast } = useToast();
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -29,45 +28,43 @@ function LoginScreen() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      password: '',
+      password: "",
     },
-  })
+  });
 
   const onSubmit = async (data) => {
     try {
       handleLoginByEmailAndPassword(data)
         .then((response) => {
           if (response.status === 201) {
-            reset()
+            reset();
             toast({
-              variant: 'default',
-              title: 'Sucesso no Login!',
+              variant: "default",
+              title: "Sucesso no Login!",
               description:
-                'Parabens! Login realizado com sucesso. você sera redirecionado para o menu.',
-            })
+                "Parabéns! Login realizado com sucesso. você sera redirecionado para o menu.",
+            });
             setTimeout(() => {
-              router.push('/')
-            }, 3000)
+              router.push("/");
+            }, 3000);
           }
         })
         .catch((error) => {
-          console.log(error)
-          setError(error.response.data)
-        })
+          // setError(error.response.data);
+          return error;
+        });
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
-
-  console.log(error)
+  };
 
   const password = (event) => {
     if (event.target.value.length < 6) {
-      event.target.setCustomValidity('Senha deve ter pelo menos 6 caracteres')
+      event.target.setCustomValidity("Senha deve ter pelo menos 6 caracteres");
     } else {
-      event.target.setCustomValidity('')
+      event.target.setCustomValidity("");
     }
-  }
+  };
 
   return (
     <>
@@ -91,10 +88,10 @@ function LoginScreen() {
               <div className="w-full space-y-1">
                 <label>Email</label>
                 <input
-                  {...register('email', {
+                  {...register("email", {
                     required: {
                       value: true,
-                      message: 'Por Favor insira um email!',
+                      message: "Por Favor insira um email!",
                     },
                   })}
                   placeholder="Exp: johndoe@gmail.com"
@@ -106,21 +103,15 @@ function LoginScreen() {
                     <AlertTriangleIcon className="w-4 mr-1" />
                     {errors.password.message}
                   </span>
-                )) ||
-                  (error && (
-                    <span className="text-red-600 text-xs flex items-center w-full pt-1">
-                      <AlertTriangleIcon className="w-4 mr-1" />
-                      {error}
-                    </span>
-                  ))}
+                ))}
               </div>
               <div className="flex flex-col w-full space-y-1">
                 <label>Senha</label>
                 <input
-                  {...register('password', {
+                  {...register("password", {
                     required: {
                       value: true,
-                      message: 'Por Favor insira uma senha!',
+                      message: "Por Favor insira uma senha!",
                     },
                     onChange: (event) => password(event),
                   })}
@@ -133,13 +124,7 @@ function LoginScreen() {
                     <AlertTriangleIcon className="w-4 mr-1" />
                     {errors.password.message}
                   </span>
-                )) ||
-                  (error && (
-                    <span className="text-red-600 text-xs flex items-center w-full pt-1">
-                      <AlertTriangleIcon className="w-4 mr-1" />
-                      {error}
-                    </span>
-                  ))}
+                ))}
               </div>
               <div className="flex flex-row items-center w-full">
                 <p className={`${poppins.className} text-sm`}>Lembrar de mim</p>
@@ -167,7 +152,7 @@ function LoginScreen() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default LoginScreen
+export default LoginScreen;
