@@ -1,4 +1,4 @@
-"use client"
+'use client'
 import React from 'react'
 import Menu from './Menu'
 import Feed from './Feed'
@@ -6,11 +6,11 @@ import Feed from './Feed'
 function HomeWrap() {
   return (
     <>
-      <div className='fixed'>
-        <Menu/>
+      <div className="fixed">
+        <Menu />
       </div>
-      <div className='h-screen ml-24'>
-        <Feed/>
+      <div className="h-screen ml-24">
+        <Feed />
       </div>
     </>
   )
