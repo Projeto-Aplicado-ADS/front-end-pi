@@ -7,52 +7,11 @@ export function QuartosList() {
   const data = useMemo(
     () => [
       {
-        col1: 'Hello',
-        col2: 'World',
-      },
-      {
-        col1: 'react-table',
-        col2: 'rocks',
-      },
-      {
-        col1: 'whatever',
-        col2: 'you want',
-      },
-      {
-        col1: 'Hello',
-        col2: 'World',
-      },
-      {
-        col1: 'react-table',
-        col2: 'rocks',
-      },
-      {
-        col1: 'whatever',
-        col2: 'you want',
-      },
-      {
-        col1: 'Hello',
-        col2: 'World',
-      },
-      {
-        col1: 'react-table',
-        col2: 'rocks',
-      },
-      {
-        col1: 'whatever',
-        col2: 'you want',
-      },
-      {
-        col1: 'Hello',
-        col2: 'World',
-      },
-      {
-        col1: 'react-table',
-        col2: 'rocks',
-      },
-      {
-        col1: 'whatever',
-        col2: 'you want',
+        numero_quarto: 'World',
+        numero_andar: 'Hello',
+        tipo_quarto: 'World',
+        descricao: 'Hello',
+        status_quarto: 'World',
       },
     ],
     [],
@@ -61,12 +20,24 @@ export function QuartosList() {
   const columns = useMemo(
     () => [
       {
-        header: 'Column 1',
-        accessorKey: 'col1', // accessor is the "key" in the data
+        header: 'Número do Quarto',
+        accessorKey: 'numero_quarto',
       },
       {
-        header: 'Column 2',
-        accessorKey: 'col2',
+        header: 'Andar do Quarto',
+        accessorKey: 'numero_andar',
+      },
+      {
+        header: 'Tipo de quarto',
+        accessorKey: 'tipo_quarto',
+      },
+      {
+        header: 'Descrição',
+        accessorKey: 'descricao', // accessor is the "key" in the data
+      },
+      {
+        header: 'Status do Quarto',
+        accessorKey: 'status_quarto',
       },
     ],
     [],

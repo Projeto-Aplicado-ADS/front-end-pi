@@ -36,7 +36,7 @@ function Menu() {
             <p>Check-in Check-out</p>
           </div>
         </Link>
-        <Link href={'/'} className="p-3">
+        <Link href={'/quartos'} className="p-3">
           <div className={MenuItemStyle}>
             <BedDoubleIcon />
             <p>Quartos</p>
