@@ -1,11 +1,14 @@
-import React from 'react'
+import React from "react";
 import {
-  useReactTable,
-  getCoreRowModel,
-  getSortedRowModel,
-  getPaginationRowModel,
   flexRender,
-} from '@tanstack/react-table'
+  getCoreRowModel,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import {
   Table,
   TableBody,
@@ -13,77 +16,124 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table'
-import PaginationComponent from './PaginationComponent'
-import { Button } from '@/components/ui/button'
-import { PencilIcon, TrashIcon } from 'lucide-react'
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { getAllQuartos } from "@/modules/quarto/services/getAllQuartos";
+import { TableToolbar } from "@/components/Table/TableToolbar";
+import { columns } from "./TableColumns";
 
-const TableComponent = ({ columns, data }) => {
+const TableComponent = ({ data }) => {
   const [pagination, setPagination] = React.useState({
     pageIndex: 0,
     pageSize: 10,
-  })
+  });
+  const [sorting, setSorting] = React.useState([]);
+  const [dataQuartos, setDataQuartos] = React.useState([]);
+
+  React.useEffect(() => {
+    getAllQuartos().then((res) => {
+      setDataQuartos(res.data);
+    });
+  }, []);
 
   const table = useReactTable({
-    columns,
-    data,
+    columns: columns,
+    data: dataQuartos || [],
     pageCount: Math.ceil(data.length / pagination.pageSize),
-    state: { pagination },
+    state: { pagination, sorting },
+    onSortingChange: setSorting,
     onPaginationChange: setPagination,
+    enableRowSelection: true,
     getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
     manualPagination: true,
-  })
+  });
 
   return (
     <>
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow className="border-amber-500" key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHead
-                  className="font-bold text-black"
-                  key={header.id}
-                  onClick={header.column.getToggleSortingHandler()}
-                >
-                  {flexRender(
-                    header.column.columnDef.header,
-                    header.getContext(),
-                  )}
-                  {{
-                    asc: ' 🔼',
-                    desc: ' 🔽',
-                  }[header.column.getIsSorted()] ?? null}
-                </TableHead>
+      <div className="w-full space-y-4">
+        <TableToolbar table={table} />
+        <div className="rounded-md border">
+          <Table>
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <TableHead key={header.id}>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                      </TableHead>
+                    );
+                  })}
+                </TableRow>
               ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows.map((row) => (
-            <TableRow key={row.id} className="border-amber-500">
-              {row.getVisibleCells().map((cell) => (
-                <TableCell className="text-black" key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-              ))}
-              <Button className="bg-red-600 m-2 float-right">
-                <TrashIcon />
-                Remover
-              </Button>
-              <Button className="bg-blue-500 m-2 float-right">
-                <PencilIcon />
-                Editar
-              </Button>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <PaginationComponent table={table} />
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-24 text-center"
+                  >
+                    No results.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+        <div className="flex items-center justify-end space-x-2 py-4">
+          <div className="flex-1 text-sm text-muted-foreground">
+            {table.getFilteredSelectedRowModel().rows.length} of{" "}
+            {table.getFilteredRowModel().rows.length} row(s) selected.
+          </div>
+          <div className="space-x-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default TableComponent
+export default TableComponent;

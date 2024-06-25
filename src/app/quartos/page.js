@@ -1,9 +1,9 @@
-'use client'
+"use client";
 
-import Quartos from '@/modules/quarto/screen/Quartos'
+import Quartos from "@/modules/quarto/screen/Quartos";
 
 function Page() {
-  return <Quartos></Quartos>
+  return <Quartos />;
 }
 
-export default Page
+export default Page;
