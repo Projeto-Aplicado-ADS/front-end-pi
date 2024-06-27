@@ -1,4 +1,5 @@
 import { axiosInstance } from "@/lib/api";
+import axios from "axios";
 
 export const getMe = async (token) => {
   const response = await axiosInstance.get("/users/me", {
@@ -7,5 +8,5 @@ export const getMe = async (token) => {
     },
   });
 
-  return response.data;
+  return response?.data;
 };

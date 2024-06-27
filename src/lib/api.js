@@ -1,11 +1,9 @@
 import axios from "axios";
-import Cookies from "js-cookie";
 
 export const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_ROUTER,
   headers: {
     "Content-Type": "application/json",
-    /* "Authorization": TODO: ADD TOKEN FROM COOKIE TO ALL REQUEST  */
   },
   withCredentials: true,
 });
@@ -18,9 +16,6 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     switch (error.response?.status) {
-      case 401:
-        window.location.assign("/login");
-        break;
       case 404:
         window.location.assign("/not-found");
         break;
