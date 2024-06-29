@@ -1,12 +1,9 @@
-import Home from '@/modules/home/screen/Home'
-import Image from 'next/image'
+import Home from "@/modules/home/screen/Home";
 
 export const metadata = {
-  title: 'Home',
-}
+  title: "Home",
+};
 
 export default function Page() {
-  return (
-    <Home />
-  )
+  return <Home />;
 }
