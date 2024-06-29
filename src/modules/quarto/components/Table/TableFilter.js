@@ -13,7 +13,7 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from "../ui/command";
+} from "../../../../components/ui/command";
 import { Separator } from "@/components/ui/separator";
 import { Check, PlusCircle } from "lucide-react";
 import { cn } from "@/lib/utils";

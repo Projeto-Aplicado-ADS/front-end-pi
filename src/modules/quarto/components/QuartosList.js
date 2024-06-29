@@ -1,6 +1,6 @@
 "use client";
 
-import TableComponent from "@/components/Table/TableComponent";
+import TableComponent from "@/modules/quarto/components/Table/TableComponent";
 import React, { useMemo } from "react";
 
 export function QuartosList() {

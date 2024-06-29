@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { getAllQuartos } from "@/modules/quarto/services/getAllQuartos";
-import { TableToolbar } from "@/components/Table/TableToolbar";
+import { TableToolbar } from "@/modules/quarto/components/Table/TableToolbar";
 import { columns } from "./TableColumns";
 
 const TableComponent = ({ data }) => {

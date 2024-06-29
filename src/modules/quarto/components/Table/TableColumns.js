@@ -1,31 +1,11 @@
 import { Checkbox } from "@/components/ui/checkbox";
-import { DataTableColumnHeader } from "@/components/Table/table-column-header";
+import { DataTableColumnHeader } from "@/modules/quarto/components/Table/table-column-header";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuLabel,DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { MoreHorizontal } from "lucide-react";
+import { QuartosForm } from "../QuartosForm";
 
 export const columns = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-        className="translate-y-[2px]"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-        className="translate-y-[2px]"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
   {
     accessorKey: "numero_quarto",
     header: ({ column }) => (
@@ -86,7 +66,7 @@ export const columns = [
     id: "status_quarto",
     accessorKey: "status_quarto",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="status_quarto" />
+      <DataTableColumnHeader column={column} title="Status do Quarto" />
     ),
     cell: ({ row }) => {
       return (
@@ -97,6 +77,35 @@ export const columns = [
     },
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
+    },
+  },
+  {
+    id: "actions",
+    enableHiding: false,
+    cell: ({ row }) => {
+      const quartoId = row.original.id;
+      console.log("quartoId", quartoId);
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem
+              onClick={() => navigator.clipboard.writeText(quartoId)}
+            >
+              Copy payment ID
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem><QuartosForm quartoId={quartoId}/></DropdownMenuItem>
+            <DropdownMenuItem>View payment details</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )
     },
   },
 ];

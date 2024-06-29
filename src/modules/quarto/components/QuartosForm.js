@@ -1,64 +1,58 @@
 import React from 'react'
 import { Lato } from 'next/font/google'
+import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
-const lato = Lato({
-  weight: '400',
-  subsets: ['latin'],
-})
-
-function QuartosForm() {
+export function QuartosForm({}) {
   return (
-    <>
-      <div className="flex flex-row w-full h-screen justify-center items-center">
-        <div className="flex w-full h-screen">
-          <form className="w-full flex justify-center">
-            <div className="flex flex-col  items-center justify-center  lg:gap-y-5 md:gap-6 max-md:gap-6">
-              <h1 className={`${lato.className} text-[25px] text-center`}>
-                Registre-se
-              </h1>
-              <div className="flex flex-col w-full">
-                <label>Nome Completo</label>
-                <input
-                  type="text"
-                  className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium"
-                />
-              </div>
-              <div className="flex flex-col w-full">
-                <label>Email</label>
-                <input className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium" />
-              </div>
-              <div className="flex flex-col w-full">
-                <label>Telefone</label>
-                <input className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium" />
-              </div>
-              <div className="flex flex-col w-full">
-                <label>Senha</label>
-                <input className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium" />
-              </div>
-            </div>
-            <div className="flex flex-col w-full">
-              <label>Confirmar Senha</label>
-              <input className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium" />
-            </div>
-            <div className="flex flex-row gap-x-2 w-full">
-              <button
-                type="submit"
-                className="p-2 bg-[#FB7901] text-white w-[120px] rounded-md hover:bg-[#FF9839] hover:delay-75 transition"
-              >
-                Criar
-              </button>
-              <button
-                type="button"
-                className="p-2 bg-[#FB7901] text-white w-[120px] rounded-md hover:bg-[#FF9839] hover:delay-75 transition"
-              >
-                Cancelar
-              </button>
-            </div>
-          </form>
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline"
+          size="sm" className="h-8 border-dashed hover:bg-blue-500  hover:text-white" >Editar Quarto</Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Edit profile</DialogTitle>
+          <DialogDescription>
+            Make changes to your profile here. Click save when you're done.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="name" className="text-right">
+              Name
+            </Label>
+            <Input
+              id="name"
+              defaultValue="Pedro Duarte"
+              className="col-span-3"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="username" className="text-right">
+              Username
+            </Label>
+            <Input
+              id="username"
+              defaultValue="@peduarte"
+              className="col-span-3"
+            />
+          </div>
         </div>
-      </div>
-    </>
+        <DialogFooter>
+          <Button type="submit">Save changes</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   )
 }
-
-export default QuartosForm
