@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { TimerResetIcon } from "lucide-react";
@@ -6,7 +7,8 @@ import { Separator } from "@/components/ui/separator";
 import { Montserrat } from "next/font/google";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { getMe } from "@/modules/home/lib/getUserByEmail";
+import { getMe } from "@/modules/home/lib/getMe";
+import UnathorizedDialog from "../../../components/UnathorizedDialog";
 
 const dosis = Montserrat({
   weight: "400",
@@ -17,8 +19,8 @@ function Feed() {
   const today = new Date();
   const router = useRouter();
   const token = Cookies.get("token");
-  const data = getMe(token);
   const [getUsername, setUsername] = useState("");
+  const [open, setOpen] = useState(false);
 
   const getFormattedDate = (date) => {
     return date.toLocaleDateString("pt-BR", { day: "numeric" });
@@ -35,22 +37,26 @@ function Feed() {
     getFormattedDate(today);
     getFormattedDay(today);
 
-    data
+    getMe(token)
       .then((respose) => {
-        setUsername(respose.full_name);
+        setOpen(false);
+        setUsername(respose?.full_name);
       })
       .catch((error) => {
-        console.log(error);
+        if (error?.response?.status === 401) {
+          setOpen(true);
+          setTimeout(() => {
+            router.push("/login");
+          }, 5000);
+          Cookies.remove("token");
+        }
       });
-
-    if (!token) {
-      router.push("/login");
-    }
   }, []);
 
   return (
     <>
       <div className={`${dosis.className} flex flex-row h-screen w-full`}>
+        <UnathorizedDialog open={open} setOpen={setOpen} className="z-50" />
         <div className="w-full h-screen flex flex-col gap-5">
           <h1 className="text-xl ml-12 pt-20 font-semibold">
             Bem vindo, {getUsername || "Anônimo"}!
