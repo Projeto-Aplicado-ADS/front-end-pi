@@ -31,7 +31,7 @@ function Menu() {
                     <p>Quartos</p>
                 </div>
             </Link>
-            <Link href={"/"} className="p-2">
+            <Link href={"/finances"} className="p-2">
                 <div className='flex flex-col items-center w-full p-2 text-center hover:bg-[#ffcb9c] transition ease-in-out delay-100 rounded-2xl'>
                     <BadgeDollarSignIcon />
                     <p>Financeiro</p>
