@@ -43,5 +43,5 @@ export async function middleware(req) {
 }
 
 export const config = {
-  matcher: ["/", "/login", "/singup"],
+  matcher: ["/", "/login", "/singup","/finances"],
 };
