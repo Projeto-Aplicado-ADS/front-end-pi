@@ -1,5 +1,4 @@
-import { axiosInstance } from "@/lib/api";
-import axios from "axios";
+import { axiosInstance } from "@/lib/axios/api";
 
 export const getMe = async (token) => {
   const response = await axiosInstance.get("/users/me", {

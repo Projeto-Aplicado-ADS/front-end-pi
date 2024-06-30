@@ -1,12 +1,9 @@
-import { Button } from "@/components/ui/button";
-import { Trash } from "lucide-react";
 import { TableFilter } from "./TableFilter";
 import { QuartosForm } from "../QuartosForm";
-import { useEffect, useState } from "react";
 
 export function TableToolbar({ table }) {
   const status = [
-    { value: "livre", label: "livre" },
+    { value: "livre", label: "Livre" },
     { value: "ocupado", label: "Ocupado" },
     { value: "reservado", label: "Reservado" },
   ];
@@ -22,6 +19,7 @@ export function TableToolbar({ table }) {
           }
           className="h-8 w-[150px] lg:w-[250px] flex rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium"
         />
+        {table.getColumn("status_quarto") && <QuartosForm status={status} />}
         {table.getColumn("status_quarto") && (
           <TableFilter
             column={table.getColumn("status_quarto")}
