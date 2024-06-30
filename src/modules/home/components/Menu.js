@@ -54,7 +54,7 @@ function Menu() {
             <p>Pessoas</p>
           </div>
         </Link>
-        <Link href={'/'} className="p-3 mt-28">
+        <Link href={'/perfil'} className="p-3 mt-28">
           <div className="flex flex-col items-center w-full mt-32 p-2 text-center hover:bg-[#ffcb9c] transition ease-in-out delay-100 rounded-2xl">
             <User />
             <p>Perfil</p>
