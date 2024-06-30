@@ -29,7 +29,7 @@ function DoughnutChart() {
             options={{
                 plugins: {
                     title: {
-                        text: "Meios de Reservas",
+                        text: "Meios de Pagamento",
                         display: true,
                     },
                 },

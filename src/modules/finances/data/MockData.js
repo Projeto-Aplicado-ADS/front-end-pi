@@ -19,3 +19,10 @@ export const RevenueData = [
     { label: "Pix", value: 23 },
     { label: "Dinheiro", value: 10 }
   ];
+
+  export const MeiosDeReserva = [
+    { label: "Telefone", value: 20 },
+    { label: "Airbnb/Booking", value: 50 },
+    { label: "Promotor", value: 20 },
+    { label: "Site", value: 10 }
+  ];

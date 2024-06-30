@@ -1,16 +1,16 @@
 'use client';
 import { Bar } from "react-chartjs-2";
-import { SourceData } from "../data/MockData";
+import { MeiosDeReserva } from "../data/MockData";
 
 function BarChart() {
     return (
         <Bar
             data={{
-                labels: SourceData.map(data => data.label),
+                labels: MeiosDeReserva.map(data => data.label),
                 datasets: [
                     {
                         label: "Reservas",
-                        data: SourceData.map(data => data.value),
+                        data: MeiosDeReserva.map(data => data.value),
                         backgroundColor: [
                             "rgba(43, 63, 229, 0.8)",
                             "rgba(250, 192, 19, 0.8)",
