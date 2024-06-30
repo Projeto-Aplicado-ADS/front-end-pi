@@ -67,9 +67,9 @@ function PerfilForm() {
         try {
             delete data.confirm_password;
             console.log('data', data);
-            updateUserName(data.id, data)
-            updateUserEmail(data.id, data)
-            updateUserPhone(data.id, data)
+            updateUserName(data.id)
+            updateUserEmail(data.id)
+            updateUserPhone(data.id)
                 .then((response) => {
                     if (response.status === 201) {
                         reset();
