@@ -1,5 +1,5 @@
-import Menu from "../../home/components/Menu"
 import PerfilForm from "./perfilForm"
+import Menu from "@/components/Menu";
 
 function PerfilWrap() {
     return(

@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { getMe } from "@/modules/home/lib/getMe";
 import { useForm, Controller } from "react-hook-form";
 import { Lato, Montserrat } from "next/font/google";
 import { AlertTriangleIcon } from "lucide-react";
@@ -10,6 +9,7 @@ import { PhoneInput } from "react-international-phone";
 import { Card } from "@/components/ui/card";
 import { updateUserName, updateUserEmail, updateUserPhone } from "../services/updateUserData";
 import { useToast } from "@/components/ui/use-toast";
+import { getMe } from "@/modules/home/service/getMe";
 
 const lato = Lato({
     weight: "400",
@@ -26,7 +26,7 @@ function PerfilForm() {
     const token = Cookies.get("token");
     const [open, setOpen] = useState(false);
     const [userId, setUserId] = useState(null);
-    const toast = useToast();
+    const {toast} = useToast();
 
     const {
         register,
@@ -42,7 +42,34 @@ function PerfilForm() {
         },
     });
 
+
     useEffect(() => {
+        updateForm();
+    }, [token]);
+
+    const onSubmit = async (data) => { //TODO Falta ajustar aqui.
+        try {
+            const emailResponse = await updateUserEmail(userId, { email: data?.email });
+            const nameResponse = await updateUserName(userId, { full_name: data?.full_name });
+            const phoneResponse = await updateUserPhone(userId, { phone: data?.phone });
+            console.log("Responses",emailResponse, nameResponse, phoneResponse);
+            if (emailResponse.status === 204 && nameResponse.status === 204 && phoneResponse.status === 204) {
+                toast({
+                    variant: "default",
+                    title: "Sucesso!",
+                    description: "Usuário atualizado com sucesso.",
+                });
+                setTimeout(() => {
+                    router.push("/login");
+                }, 2000);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+    };
+
+    function updateForm() {
         if (token) {
             getMe(token)
                 .then((response) => {
@@ -58,38 +85,12 @@ function PerfilForm() {
                         toast({
                             variant: "destructive",
                             title: "Erro!",
-                            description:
-                                "Ops. Algo deu errado aconteceu.",
+                            description: "Ops. Algo deu errado aconteceu.",
                         });
                     }
                 });
         }
-    }, [token]);
-
-    const onSubmit = async (data) => { //TODO Falta ajustar aqui.
-        try {
-            updateUserEmail(userId,data?.email);
-            updateUserName(userId,data?.full_name)
-            updateUserPhone(userId,response?.phone);
-            then((response) => {
-                if (response.status === 204) {
-                    toast({
-                        variant: "default",
-                        title: "Sucesso!",
-                        description: "Usuário atualizado com sucesso.",
-                    });
-                    setTimeout(() => {
-                        router.push("/login");
-                    }, 2000);
-                }
-            })
-                .catch((error) => {
-                    console.log(error);
-                });
-        } catch (e) {
-            console.log(e);
-        }
-    };
+    }
 
     return (
         <Card className="w-full h-full px-20 pb-20 pt-10 bg-gray-100">
@@ -97,7 +98,7 @@ function PerfilForm() {
                 className="bg-white border-2 rounded-2xl w-3/4 ml-2 mr-0 p-10 w-3/5 flex flex-col items-center h-full"
                 onSubmit={handleSubmit(onSubmit)}
             >
-                <div className="flex flex-col w-full mb-5">
+                <div className="flex flex-col w-full mb-10">
                     <label>Nome Completo</label>
                     <input
                         {...register("full_name", {
@@ -117,7 +118,7 @@ function PerfilForm() {
                         </span>
                     )}
                 </div>
-                <div className="flex flex-col w-full mb-5">
+                <div className="flex flex-col w-full mb-10">
                     <label>Email</label>
                     <input
                         {...register("email", {
@@ -137,7 +138,7 @@ function PerfilForm() {
                         </span>
                     )}
                 </div>
-                <div className="flex flex-col w-full mb-5">
+                <div className="flex flex-col w-full mb-10">
                     <label>Telefone</label>
                     <Controller
                         name="phone"
@@ -148,8 +149,8 @@ function PerfilForm() {
                                 message: "Insira um numéro de telefone",
                             },
                             pattern: {
-                                value: /^\+55\d{11}$/,
-                                message: "Por favor insira um numéro de telefone!",
+                                label: /^\+55 \(\d{2}\) \d{9}$/,
+                                message: "Por favor insira um número de telefone!",
                             },
                         }}
                         render={({ field: { onChange, value } }) => (
