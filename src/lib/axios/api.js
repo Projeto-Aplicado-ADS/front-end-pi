@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_ROUTER,
@@ -18,6 +19,7 @@ axiosInstance.interceptors.response.use(
         window.location.assign("/not-found");
         break;
       case 500:
+        Cookies.remove("token");
         window.location.assign("/login");
       default:
         break;
