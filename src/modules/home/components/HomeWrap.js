@@ -1,7 +1,7 @@
-'use client'
-import React from 'react'
-import Menu from './Menu'
-import Feed from './Feed'
+"use client";
+import React from "react";
+import Menu from "@/components/Menu";
+import Feed from "./Feed";
 
 function HomeWrap() {
   return (
@@ -13,7 +13,7 @@ function HomeWrap() {
         <Feed />
       </div>
     </>
-  )
+  );
 }
 
-export default HomeWrap
+export default HomeWrap;

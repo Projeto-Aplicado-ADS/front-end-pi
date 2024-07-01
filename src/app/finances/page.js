@@ -1,10 +1,11 @@
 import Finances from "@/modules/finances/screen/Finances";
 
-function Page() {
+export const metadata = {
+  title: "Finances",
+};
 
-    return (
-        <Finances />
-    )
+function Page() {
+  return <Finances />;
 }
 
 export default Page;

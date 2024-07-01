@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { Montserrat } from "next/font/google";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { getMe } from "@/modules/home/lib/getMe";
+import { getMe } from "@/modules/home/service/getMe";
 import UnathorizedDialog from "../../../components/UnathorizedDialog";
 
 const dosis = Montserrat({

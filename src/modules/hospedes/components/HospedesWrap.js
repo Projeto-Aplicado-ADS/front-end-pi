@@ -1,18 +1,19 @@
 "use client";
 import React from "react";
-import QuartosPage from "@/modules/quarto/components/QuartosPage";
+import HospedesPage from "./HospedesPage";
 import Menu from "@/components/Menu";
 
-function QuartoWrap() {
+function HospedesWrap() {
   return (
     <>
       <div className="fixed">
         <Menu />
       </div>
       <div className="h-screen ml-24">
-        <QuartosPage />
+        <HospedesPage />
       </div>
     </>
   );
 }
-export default QuartoWrap;
+
+export default HospedesWrap;

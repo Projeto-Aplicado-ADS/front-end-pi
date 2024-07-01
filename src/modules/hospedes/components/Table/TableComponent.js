@@ -18,9 +18,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { getAllQuartos } from "@/modules/quarto/services/getAllQuartos";
-import { TableToolbar } from "@/modules/quarto/components/Table/TableToolbar";
+import { TableToolbar } from "@/modules/hospedes/components/Table/TableToolbar";
 import { columns } from "./TableColumns";
+import { getAllHospedes } from "../../services/getAllHospedes";
 
 const TableComponent = () => {
   const [pagination, setPagination] = React.useState({
@@ -28,17 +28,17 @@ const TableComponent = () => {
     pageSize: 10,
   });
   const [sorting, setSorting] = React.useState([]);
-  const [dataQuartos, setDataQuartos] = React.useState([]);
+  const [data, setHospedes] = React.useState([]);
 
   React.useEffect(() => {
-    getAllQuartos().then((res) => {
-      setDataQuartos(res.data);
+    getAllHospedes().then((res) => {
+      setHospedes(res.data);
     });
   }, []);
 
   const table = useReactTable({
     columns: columns,
-    data: dataQuartos || [],
+    data: data || [],
     state: { pagination, sorting },
     onSortingChange: setSorting,
     onPaginationChange: setPagination,
