@@ -18,6 +18,7 @@ axiosInstance.interceptors.response.use(
         window.location.assign("/not-found");
         break;
       case 500:
+        Cookies.remove("token");
         window.location.assign("/login");
       default:
         break;

@@ -1,9 +1,13 @@
 import PerfilWrap from "../components/perfilWrap";
+import { Toaster } from "@/components/ui/toaster";
 
-function PerfilPage(){
+function PerfilPage() {
 
-    return(
-        <PerfilWrap />
+    return (
+        <>
+            <PerfilWrap />
+            <Toaster />
+        </>
     )
 }
 

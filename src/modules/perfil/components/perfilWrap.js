@@ -7,7 +7,7 @@ function PerfilWrap() {
         <div className="fixed">
           <Menu />
         </div>
-        <div className="h-screen ml-24">
+        <div className="h-screen ml-24 h-full w-full ">
             <PerfilForm />
         </div>
       </>
