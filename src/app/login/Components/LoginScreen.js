@@ -51,7 +51,12 @@ function LoginScreen() {
           }
         })
         .catch((error) => {
-          // setError(error.response.data);
+          toast({
+            variant: "destructive",
+            title: "Erro no login!",
+            description:
+              "Algo de errado acontece! Tente fazer login novamente.",
+          });
           return error;
         });
     } catch (e) {
