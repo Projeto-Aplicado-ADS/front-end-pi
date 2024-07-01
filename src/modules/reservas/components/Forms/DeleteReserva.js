@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,7 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { PenBoxIcon, Trash } from "lucide-react";
+import { PenBoxIcon, SquareScissors, Trash } from "lucide-react";
 import { useForm, Controller, Form } from "react-hook-form";
 import {
   Select,
@@ -20,36 +20,41 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
-import { getAllHospedes } from "../../services/getAllHospedes";
-import { deleteHospede } from "../../services/deleteHospede";
+import { getAllReservas } from "../../services/getAllReservas";
+import { removeReserva } from "../../services/removeReserva";
 
-export function HospedeDelete() {
+export function DeleteReserva() {
   const { handleSubmit, control } = useForm();
   const [open, setOpen] = useState(false);
-  const [hospedes, setHospedes] = useState([]);
+  const [reservas, setReserva] = useState([]);
   const { toast } = useToast();
+  const formatTime = (timestamp) => {
+    return new Date(timestamp).toLocaleDateString("pt-BR", {
+      dateStyle: "long",
+    });
+  };
 
   useEffect(() => {
-    getAllHospedes().then((response) => {
-      setHospedes(response.data);
+    getAllReservas().then((res) => {
+      setReserva(res.data);
     });
   }, []);
 
-  const submit = (data) => {
-    setOpen(false);
-    deleteHospede(data.cpf)
-      .then((response) => {
-        if (response.status === 204) {
-          setOpen(true);
+  const onSubmit = (data) => {
+    removeReserva(data.data_check_in)
+      .then((res) => {
+        if (res.status === 204) {
+          setOpen(false);
           window.location.reload();
         }
       })
       .catch((error) => {
         toast({
-          description: error.response.data.message,
+          description: "Algo deu errado, na hora de deletar!",
           variant: "destructive",
           title: "Algo deu errado",
         });
+        console.log(error);
       });
   };
 
@@ -62,29 +67,29 @@ export function HospedeDelete() {
           className="h-8 border-dashed hover:bg-red-500 hover:text-white"
         >
           <Trash className="mr-2 h-4 w-4" />
-          Remover Hospede
+          Remover Reserva
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-        <form onSubmit={handleSubmit(submit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>
-            <DialogTitle>Deletar Hospedes</DialogTitle>
+            <DialogTitle>Deletar Reserva</DialogTitle>
             <DialogDescription>
-              Selecione um dos hospedes da lista para ser removido.
+              Selecione uma das datas da lista para ser removido.
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-4 py-4">
             <div className="flex flex-col items-start gap-4">
               <Label htmlFor="cpf" className="text-right">
-                Cpf do Hospede
+                Data Check-in
               </Label>
               <Controller
-                name="cpf"
+                name="data_check_in"
                 control={control}
                 rules={{
                   required: {
                     value: true,
-                    message: "Selecione um CPF!",
+                    message: "Selecione uma Data!",
                   },
                 }}
                 render={({ field: { onChange, value } }) => (
@@ -93,9 +98,9 @@ export function HospedeDelete() {
                       <SelectValue placeholder="Selecione o CPF do hospede" />
                     </SelectTrigger>
                     <SelectContent>
-                      {hospedes.map((item) => (
+                      {reservas.map((item) => (
                         <SelectItem key={item.id} value={item.id}>
-                          {item.cpf}
+                          {formatTime(item.data_check_in)}
                         </SelectItem>
                       ))}
                     </SelectContent>
