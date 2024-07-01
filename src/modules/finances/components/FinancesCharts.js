@@ -39,7 +39,7 @@ function FinancesCharts() {
     });
 
     return (
-        <div className={`${dosis.className} text-2xl text-black flex flex-col items-center p-10 space-y-6 bg-gray-200`}>
+        <div className={`${dosis.className} text-2xl h-full text-black flex flex-col items-center p-10 space-y-6 bg-gray-200`}>
             <h1 className={`text-2xl text-black`}>Levantamento Financeiro</h1>
             <div className="flex w-full max-w-4xl text-black p-4 bg-gray-100 rounded-lg shadow-md">
                 <div className="w-3/5">
